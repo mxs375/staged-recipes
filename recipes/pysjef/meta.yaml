@@ -1,0 +1,59 @@
+{% set name = "pysjef" %}
+{% set version = "0.1.1" %}
+{% set sha256 = "34a2d92e1d016ae2c07f9af44251bf7083e1974c6f352058e1d7b02660977422" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.com/api/v4/projects/molpro%2F{{ name }}/repository/archive.tar.gz?sha={{ version }}
+  sha256: {{ sha256 }}
+
+
+build:
+  skip: True #[win]
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - make
+    - cmake >=3.14
+  host:
+    - python >=3.6
+    - pip
+    - boost-cpp >=1.71
+    - pugixml
+    - cython >=0.24
+    - regex
+  run:
+    - boost-cpp >=1.71
+    - python >=3.6
+    - pugixml
+    - lxml >=4.0
+    - numpy >=1.12
+    - regex
+
+test:
+  imports:
+    - pysjef
+    - pysjef.project
+
+about:
+  home: https://gitlab.com/molpro/pysjef
+  dev_url: https://gitlab.com/molpro/pysjef
+  doc_url: https://molpro.gitlab.io/pysjef/index.html
+  license: MIT
+  license_file: LICENSE
+  summary: 'Python Simple Job Execution Framework manages submission and analysis of job workflows'
+  description: |
+    pysjef simplifies workflow management by implementing job execution and synchronisation on external clusters
+    via sjef, and processing of structured output files. It allows brining structured output data into a class tree
+    hierarchy and further grouping of different projects into a global tree. The resultant work tree can be parsed,
+    sliced and processed automatically.
+
+extra:
+  recipe-maintainers:
+    - mxs375
